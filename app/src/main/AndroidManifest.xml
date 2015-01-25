@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="yanovski.billsmanager">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application
+        android:name=".BillsManagerApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.HomeActivity"
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name=".ui.ExpensesActivity"
+            android:label="@string/title_activity_expenses">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.EditExpenseActivity"
+            android:label="@string/title_activity_edit_expense"
+            android:parentActivityName=".ui.ExpensesActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="yanovski.billsmanager.ui.ExpensesActivity"/>
+        </activity>
+
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="e9022f571feb0bfbf7d66cbc7dcaf12cb7f86d21"/>
+        <activity
+            android:name=".ui.DateActivity"
+            android:label="@string/title_activity_date"
+            android:parentActivityName=".ui.EditExpenseActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.EditExpenseActivity"/>
+        </activity>
+    </application>
+</manifest>

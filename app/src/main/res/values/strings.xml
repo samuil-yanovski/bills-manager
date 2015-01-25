@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bills Manager</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <!-- Add expense fragment -->
+    <string name="name">Name</string>
+    <string name="amount">Amount</string>
+    <string name="comment">Comment</string>
+    <string name="delete">delete</string>
+    <string name="amount_format_error">Amount should be a number</string>
+    <!-- Currencies -->
+    <string name="currency_name_usd">USD</string>
+    <string name="currency_symbol_usd">$</string>
+    <string name="currency_name_euro">Euro</string>
+    <string name="currency_symbol_euro">€</string>
+    <!-- Categories -->
+    <string name="category_food">Food</string>
+    <string name="category_clothes">Clothes</string>
+    <string name="category_electronics">Electronics</string>
+    <string name="category_car">Car</string>
+    <string name="category_furniture">Furniture</string>
+    <string name="category_medical">Medical</string>
+    <string name="category_holidays">Holidays</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_sport">Sport</string>
+    <!-- Titles -->
+    <string name="title_activity_expenses">Expenses</string>
+    <string name="title_activity_edit_expense">Expense details</string>
+    <string name="title_activity_date">Select date</string>
+</resources>
