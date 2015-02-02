@@ -17,6 +17,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.joda.time.DateTime;
+import org.lucasr.twowayview.ItemSelectionSupport;
+import org.lucasr.twowayview.TwoWayLayoutManager;
+import org.lucasr.twowayview.widget.GridLayoutManager;
+import org.lucasr.twowayview.widget.SpacingItemDecoration;
+import org.lucasr.twowayview.widget.TwoWayView;
 
 import java.util.List;
 
@@ -26,8 +31,10 @@ import butterknife.OnClick;
 import yanovski.billsmanager.BillsManagerApplication;
 import yanovski.billsmanager.Constants;
 import yanovski.billsmanager.R;
+import yanovski.billsmanager.adapter.CategoriesAdapter;
 import yanovski.billsmanager.dao.DataManager;
 import yanovski.billsmanager.daogen.Category;
+import yanovski.billsmanager.daogen.CategoryDao;
 import yanovski.billsmanager.daogen.Expense;
 import yanovski.billsmanager.util.DateUtils;
 import yanovski.billsmanager.util.ViewUtils;
@@ -108,10 +115,13 @@ public class EditExpenseActivity extends ActionBarActivity {
         TextView date;
         @InjectView(R.id.delete)
         TextView delete;
+        @InjectView(R.id.list)
+        TwoWayView list;
 
         private DateTime selectedDate = DateTime.now();
         private Expense expense;
         private int position = (int) Constants.DEFAULT_ID;
+        private ItemSelectionSupport selectionSupport;
 
         public Expense getExpense() {
             return expense;
@@ -163,13 +173,41 @@ public class EditExpenseActivity extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_add_expense, container, false);
             ButterKnife.inject(this, rootView);
 
-            List<Category> categories = BillsManagerApplication.categoryDao.loadAll();
+            List<Category> categories = BillsManagerApplication.categoryDao.queryBuilder()
+                .orderDesc(CategoryDao.Properties.Priority)
+                .list();
             ArrayAdapter<Category> categoryArrayAdapter =
                 new ArrayAdapter<Category>(getActivity(), android.R.layout.simple_list_item_1,
                     categories);
             categoryArrayAdapter.setDropDownViewResource(
                 android.R.layout.simple_dropdown_item_1line);
             category.setAdapter(categoryArrayAdapter);
+
+            CategoriesAdapter categoriesAdapter = new CategoriesAdapter();
+            categoriesAdapter.setCategories(categories);
+            list.setAdapter(categoriesAdapter);
+
+            int columnsCount = 5;
+            int rowsCount = 2;
+            //            int rowsCount = (int) Math.ceil(categories.size() / columnsCount);
+
+            GridLayoutManager gridLayoutManager =
+                new GridLayoutManager(TwoWayLayoutManager.Orientation.VERTICAL, columnsCount,
+                    rowsCount);
+
+            //            LinearLayoutManager lineartLayoutManager =
+            //                new LinearLayoutManager(BillsManagerApplication.context,
+            //                 0   LinearLayoutManager.HORIZONTAL, false);
+
+            int spacing = (int) getResources().getDimension(R.dimen.item_spacing);
+            SpacingItemDecoration decoration = new SpacingItemDecoration(spacing, spacing);
+
+            list.setLayoutManager(gridLayoutManager);
+            list.addItemDecoration(decoration);
+
+            selectionSupport = ItemSelectionSupport.addTo(list);
+            selectionSupport.setChoiceMode(ItemSelectionSupport.ChoiceMode.SINGLE);
+            selectionSupport.setItemChecked(0, true);
 
             if (null != expense) {
                 Double expenseAmount = expense.getAmount();

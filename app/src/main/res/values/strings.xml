@@ -22,8 +22,9 @@
     <string name="category_furniture">Furniture</string>
     <string name="category_medical">Medical</string>
     <string name="category_holidays">Holidays</string>
-    <string name="category_entertainment">Entertainment</string>
+    <string name="category_hobby">Hobby</string>
     <string name="category_sport">Sport</string>
+    <string name="category_other">Other</string>
     <!-- Titles -->
     <string name="title_activity_expenses">Expenses</string>
     <string name="title_activity_edit_expense">Expense details</string>

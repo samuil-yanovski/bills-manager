@@ -34,6 +34,12 @@ public class BillsDBGenerator {
         category.addIdProperty();
         category.addStringProperty("name")
             .notNull();
+        category.addIntProperty("iconId")
+            .notNull();
+        category.addIntProperty("customId")
+            .notNull();
+        category.addIntProperty("priority")
+            .notNull();
         category.implementsSerializable();
 
         Entity expense = schema.addEntity("Expense");

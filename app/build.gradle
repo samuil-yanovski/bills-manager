@@ -41,6 +41,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:palette-v7:21.0.+'
     compile 'de.greenrobot:greendao:1.3.+'
     compile 'net.danlew:android.joda:2.6.0'
     compile 'com.android.support:recyclerview-v7:+'
@@ -49,6 +50,7 @@ dependencies {
     compile 'org.lucasr.twowayview:core:1.0.0-SNAPSHOT@aar'
     compile 'org.lucasr.twowayview:layouts:1.0.0-SNAPSHOT@aar'
     compile 'com.squareup:android-times-square:1.5.0@aar'
+    compile 'com.malinskiy:superrecyclerview:1.1.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.2.0@aar') {
         transitive = true;
     }

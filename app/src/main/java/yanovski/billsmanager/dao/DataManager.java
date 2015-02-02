@@ -19,15 +19,36 @@ public class DataManager {
         if (0 == BillsManagerApplication.currentCurrencyDao.count()) {
             Context context = BillsManagerApplication.context;
 
-            insertCategory(context.getString(R.string.category_car));
-            insertCategory(context.getString(R.string.category_clothes));
-            insertCategory(context.getString(R.string.category_electronics));
-            insertCategory(context.getString(R.string.category_entertainment));
-            insertCategory(context.getString(R.string.category_food));
-            insertCategory(context.getString(R.string.category_furniture));
-            insertCategory(context.getString(R.string.category_holidays));
-            insertCategory(context.getString(R.string.category_medical));
-            insertCategory(context.getString(R.string.category_sport));
+            insertCategory(context.getString(R.string.category_car), R.drawable.ic_car,
+                context.getResources()
+                    .getInteger(R.integer.category_car), 60);
+            insertCategory(context.getString(R.string.category_clothes), R.drawable.ic_clothes,
+                context.getResources()
+                    .getInteger(R.integer.category_clothes), 60);
+            insertCategory(context.getString(R.string.category_electronics),
+                R.drawable.ic_electronics, context.getResources()
+                    .getInteger(R.integer.category_electronics), 50);
+            insertCategory(context.getString(R.string.category_hobby), R.drawable.ic_hobby,
+                context.getResources()
+                    .getInteger(R.integer.category_entertainment), 70);
+            insertCategory(context.getString(R.string.category_food), R.drawable.ic_food,
+                context.getResources()
+                    .getInteger(R.integer.category_food), 90);
+            insertCategory(context.getString(R.string.category_furniture), R.drawable.ic_furniture,
+                context.getResources()
+                    .getInteger(R.integer.category_furniture), 10);
+            insertCategory(context.getString(R.string.category_holidays), R.drawable.ic_holidays,
+                context.getResources()
+                    .getInteger(R.integer.category_holidays), 20);
+            insertCategory(context.getString(R.string.category_medical), R.drawable.ic_medical,
+                context.getResources()
+                    .getInteger(R.integer.category_medical), 10);
+            insertCategory(context.getString(R.string.category_sport), R.drawable.ic_sport,
+                context.getResources()
+                    .getInteger(R.integer.category_sport), 10);
+            insertCategory(context.getString(R.string.category_other), R.drawable.ic_other,
+                context.getResources()
+                    .getInteger(R.integer.category_other), 0);
 
             Currency usd = insertCurrency(context.getString(R.string.currency_name_usd),
                 context.getString(R.string.currency_symbol_usd));
@@ -57,9 +78,12 @@ public class DataManager {
         return currentCurrency;
     }
 
-    public static Category insertCategory(String name) {
+    public static Category insertCategory(String name, int iconId, int customId, int priority) {
         Category category = new Category();
         category.setName(name);
+        category.setIconId(iconId);
+        category.setCustomId(customId);
+        category.setPriority(priority);
 
         BillsManagerApplication.categoryDao.insert(category);
         return category;

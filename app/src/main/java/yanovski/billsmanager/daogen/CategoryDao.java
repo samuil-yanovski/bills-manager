@@ -25,6 +25,9 @@ public class CategoryDao extends AbstractDao<Category, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
+        public final static Property IconId = new Property(2, int.class, "iconId", false, "ICON_ID");
+        public final static Property CustomId = new Property(3, int.class, "customId", false, "CUSTOM_ID");
+        public final static Property Priority = new Property(4, int.class, "priority", false, "PRIORITY");
     };
 
 
@@ -41,7 +44,10 @@ public class CategoryDao extends AbstractDao<Category, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'CATEGORY' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
-                "'NAME' TEXT NOT NULL );"); // 1: name
+                "'NAME' TEXT NOT NULL ," + // 1: name
+                "'ICON_ID' INTEGER NOT NULL ," + // 2: iconId
+                "'CUSTOM_ID' INTEGER NOT NULL ," + // 3: customId
+                "'PRIORITY' INTEGER NOT NULL );"); // 4: priority
     }
 
     /** Drops the underlying database table. */
@@ -60,6 +66,9 @@ public class CategoryDao extends AbstractDao<Category, Long> {
             stmt.bindLong(1, id);
         }
         stmt.bindString(2, entity.getName());
+        stmt.bindLong(3, entity.getIconId());
+        stmt.bindLong(4, entity.getCustomId());
+        stmt.bindLong(5, entity.getPriority());
     }
 
     /** @inheritdoc */
@@ -73,7 +82,10 @@ public class CategoryDao extends AbstractDao<Category, Long> {
     public Category readEntity(Cursor cursor, int offset) {
         Category entity = new Category( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getString(offset + 1) // name
+            cursor.getString(offset + 1), // name
+            cursor.getInt(offset + 2), // iconId
+            cursor.getInt(offset + 3), // customId
+            cursor.getInt(offset + 4) // priority
         );
         return entity;
     }
@@ -83,6 +95,9 @@ public class CategoryDao extends AbstractDao<Category, Long> {
     public void readEntity(Cursor cursor, Category entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setName(cursor.getString(offset + 1));
+        entity.setIconId(cursor.getInt(offset + 2));
+        entity.setCustomId(cursor.getInt(offset + 3));
+        entity.setPriority(cursor.getInt(offset + 4));
      }
     
     /** @inheritdoc */

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="category_car">1</integer>
+    <integer name="category_clothes">2</integer>
+    <integer name="category_electronics">3</integer>
+    <integer name="category_entertainment">4</integer>
+    <integer name="category_food">5</integer>
+    <integer name="category_furniture">6</integer>
+    <integer name="category_holidays">7</integer>
+    <integer name="category_medical">8</integer>
+    <integer name="category_sport">9</integer>
+    <integer name="category_other">10</integer>
+</resources>
