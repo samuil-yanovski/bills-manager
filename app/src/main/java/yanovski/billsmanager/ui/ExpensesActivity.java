@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,9 +29,10 @@ import yanovski.billsmanager.R;
 import yanovski.billsmanager.adapter.ExpensesAdapter;
 import yanovski.billsmanager.daogen.Expense;
 import yanovski.billsmanager.daogen.ExpenseDao;
+import yanovski.billsmanager.ui.base.BaseActivity;
 
 
-public class ExpensesActivity extends ActionBarActivity {
+public class ExpensesActivity extends BaseActivity {
 
     public static final int EDIT_EXPENSE_REQUEST_CODE = 101;
     public static final int ADD_EXPENSE_REQUEST_CODE = 102;
@@ -40,7 +40,7 @@ public class ExpensesActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_expenses);
+        //        setContentView(R.layout.activity_expenses);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, new PlaceholderFragment())

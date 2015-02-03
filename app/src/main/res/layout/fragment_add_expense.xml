@@ -24,19 +24,14 @@
     <org.lucasr.twowayview.widget.TwoWayView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="164dp"
         android:layout_marginTop="@dimen/small_vertical_margin"/>
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/category"
-        android:visibility="gone"></Spinner>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/name"
+        android:inputType="text"
         android:id="@+id/name"/>
 
     <EditText

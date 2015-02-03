@@ -11,9 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.joda.time.DateTime;
@@ -23,6 +21,7 @@ import org.lucasr.twowayview.widget.GridLayoutManager;
 import org.lucasr.twowayview.widget.SpacingItemDecoration;
 import org.lucasr.twowayview.widget.TwoWayView;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -103,8 +102,6 @@ public class EditExpenseActivity extends ActionBarActivity {
         private static final String EXPENSE_KEY = "expense";
         private static final int DATE_REQUEST_CODE = 100;
 
-        @InjectView(R.id.category)
-        Spinner category;
         @InjectView(R.id.name)
         EditText name;
         @InjectView(R.id.amount)
@@ -176,12 +173,6 @@ public class EditExpenseActivity extends ActionBarActivity {
             List<Category> categories = BillsManagerApplication.categoryDao.queryBuilder()
                 .orderDesc(CategoryDao.Properties.Priority)
                 .list();
-            ArrayAdapter<Category> categoryArrayAdapter =
-                new ArrayAdapter<Category>(getActivity(), android.R.layout.simple_list_item_1,
-                    categories);
-            categoryArrayAdapter.setDropDownViewResource(
-                android.R.layout.simple_dropdown_item_1line);
-            category.setAdapter(categoryArrayAdapter);
 
             CategoriesAdapter categoriesAdapter = new CategoriesAdapter();
             categoriesAdapter.setCategories(categories);
@@ -189,15 +180,10 @@ public class EditExpenseActivity extends ActionBarActivity {
 
             int columnsCount = 5;
             int rowsCount = 2;
-            //            int rowsCount = (int) Math.ceil(categories.size() / columnsCount);
 
             GridLayoutManager gridLayoutManager =
                 new GridLayoutManager(TwoWayLayoutManager.Orientation.VERTICAL, columnsCount,
                     rowsCount);
-
-            //            LinearLayoutManager lineartLayoutManager =
-            //                new LinearLayoutManager(BillsManagerApplication.context,
-            //                 0   LinearLayoutManager.HORIZONTAL, false);
 
             int spacing = (int) getResources().getDimension(R.dimen.item_spacing);
             SpacingItemDecoration decoration = new SpacingItemDecoration(spacing, spacing);
@@ -211,16 +197,25 @@ public class EditExpenseActivity extends ActionBarActivity {
 
             if (null != expense) {
                 Double expenseAmount = expense.getAmount();
-                amount.setText(Double.toString(expenseAmount));
+                if (null != expenseAmount) {
+                    amount.setText(Double.toString(expenseAmount));
+                }
+
 
                 Category expenseCategory = expense.getCategory();
-                int position = categoryArrayAdapter.getPosition(expenseCategory);
-                category.setSelection(position);
+                if (null != expenseCategory) {
+                    int categoryPosition =
+                        categoriesAdapter.getItemPosition(expenseCategory.getId());
+                    selectionSupport.setItemChecked(categoryPosition, true);
+                }
 
                 String expenseComment = expense.getComment();
                 comment.setText(expenseComment);
 
-                selectedDate = new DateTime(expense.getDate());
+                Date expenseDate = expense.getDate();
+                if (null != expenseDate) {
+                    selectedDate = new DateTime(expenseDate);
+                }
 
                 String expenseName = expense.getName();
                 name.setText(expenseName);
@@ -257,7 +252,9 @@ public class EditExpenseActivity extends ActionBarActivity {
 
         @OnClick(R.id.submit)
         public void submit() {
-            Category selectedCategory = (Category) category.getSelectedItem();
+            int checkedItemPosition = selectionSupport.getCheckedItemPosition();
+            CategoriesAdapter adapter = (CategoriesAdapter) list.getAdapter();
+            Category selectedCategory = adapter.getItem(checkedItemPosition);
 
             expense.setDate(selectedDate.toDate());
             expense.setName(name.getText()

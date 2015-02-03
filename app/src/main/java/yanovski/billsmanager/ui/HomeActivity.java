@@ -1,20 +1,19 @@
 package yanovski.billsmanager.ui;
 
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import yanovski.billsmanager.R;
+import yanovski.billsmanager.ui.base.BaseActivity;
 
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends BaseActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-    }
+//    @Override
+    //    protected void onCreate(Bundle savedInstanceState) {
+    //        super.onCreate(savedInstanceState);
+    //        setContentView(R.layout.activity_home);
+    //    }
 
 
     @Override

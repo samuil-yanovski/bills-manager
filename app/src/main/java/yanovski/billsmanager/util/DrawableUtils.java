@@ -2,14 +2,12 @@ package yanovski.billsmanager.util;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
-import android.support.v7.graphics.Palette;
 
 import yanovski.billsmanager.BillsManagerApplication;
 import yanovski.billsmanager.R;
@@ -19,6 +17,13 @@ import yanovski.billsmanager.R;
  */
 public class DrawableUtils {
     public static Drawable getTintedDrawable(Resources res, @DrawableRes int drawableResId,
+        int color) {
+        Drawable drawable = res.getDrawable(drawableResId);
+        drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        return drawable;
+    }
+
+    public static Drawable getTintedDrawableFromRes(Resources res, @DrawableRes int drawableResId,
         @ColorRes int colorResId) {
         Drawable drawable = res.getDrawable(drawableResId);
         int color = res.getColor(colorResId);
@@ -37,17 +42,17 @@ public class DrawableUtils {
         selectedBackground.setStroke(Math.round(context.getResources()
             .getDimension(R.dimen.selector_stroke_width)), primaryColor);
 
-        Bitmap fillImage = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-        fillImage.eraseColor(primaryColor);
-        Palette palette = Palette.generate(fillImage);
+
+        int pressedColor = ColorUtils.lighter(primaryColor, 0.5f);
+        int focusedColor = ColorUtils.lighter(primaryColor, 0.7f);
 
         GradientDrawable pressedBackground = (GradientDrawable) context.getResources()
             .getDrawable(R.drawable.pressed_item_background);
-        pressedBackground.setColor(palette.getLightMutedColor(primaryColor));
+        pressedBackground.setColor(pressedColor);
 
         GradientDrawable focusedBackground = (GradientDrawable) context.getResources()
             .getDrawable(R.drawable.pressed_item_background);
-        focusedBackground.setColor(palette.getLightVibrantColor(primaryColor));
+        focusedBackground.setColor(focusedColor);
 
         selector.addState(new int[]{android.R.attr.state_pressed}, pressedBackground);
         selector.addState(new int[]{android.R.attr.state_focused}, focusedBackground);

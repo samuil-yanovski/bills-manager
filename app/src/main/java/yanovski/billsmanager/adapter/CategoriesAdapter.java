@@ -11,6 +11,7 @@ import yanovski.billsmanager.BillsManagerApplication;
 import yanovski.billsmanager.R;
 import yanovski.billsmanager.adapter.vh.CategoryViewHolder;
 import yanovski.billsmanager.daogen.Category;
+import yanovski.billsmanager.util.ColorUtils;
 import yanovski.billsmanager.util.DrawableUtils;
 import yanovski.billsmanager.util.ViewUtils;
 
@@ -47,7 +48,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoryViewHolder> 
         holder.title.setText(category.getName());
         Drawable tintedDrawable =
             DrawableUtils.getTintedDrawable(BillsManagerApplication.context.getResources(),
-                category.getIconId(), R.color.primary);
+                category.getIconId(), ColorUtils.getPrimaryColor());
         holder.icon.setImageDrawable(tintedDrawable);
 
     }
@@ -69,5 +70,23 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoryViewHolder> 
 
     public void removeItem(int position) {
         categories.remove(position);
+    }
+
+    public Category getItem(int position) {
+        return categories.get(position);
+    }
+
+    public int getItemPosition(long itemId) {
+        int position = -1;
+
+        for (int index = 0; index < categories.size(); ++index) {
+            if (itemId == categories.get(index)
+                .getId()) {
+                position = index;
+                break;
+            }
+        }
+
+        return position;
     }
 }

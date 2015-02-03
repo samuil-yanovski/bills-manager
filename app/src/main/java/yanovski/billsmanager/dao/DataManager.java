@@ -25,12 +25,12 @@ public class DataManager {
             insertCategory(context.getString(R.string.category_clothes), R.drawable.ic_clothes,
                 context.getResources()
                     .getInteger(R.integer.category_clothes), 60);
-            insertCategory(context.getString(R.string.category_electronics),
-                R.drawable.ic_electronics, context.getResources()
-                    .getInteger(R.integer.category_electronics), 50);
+            insertCategory(context.getString(R.string.category_gadgets), R.drawable.ic_gadgets,
+                context.getResources()
+                    .getInteger(R.integer.category_gadgets), 50);
             insertCategory(context.getString(R.string.category_hobby), R.drawable.ic_hobby,
                 context.getResources()
-                    .getInteger(R.integer.category_entertainment), 70);
+                    .getInteger(R.integer.category_hobby), 70);
             insertCategory(context.getString(R.string.category_food), R.drawable.ic_food,
                 context.getResources()
                     .getInteger(R.integer.category_food), 90);

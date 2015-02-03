@@ -2,8 +2,8 @@
 <resources>
     <integer name="category_car">1</integer>
     <integer name="category_clothes">2</integer>
-    <integer name="category_electronics">3</integer>
-    <integer name="category_entertainment">4</integer>
+    <integer name="category_gadgets">3</integer>
+    <integer name="category_hobby">4</integer>
     <integer name="category_food">5</integer>
     <integer name="category_furniture">6</integer>
     <integer name="category_holidays">7</integer>

@@ -3,6 +3,11 @@
     <string name="app_name">Bills Manager</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <!-- Drawer -->
+    <string name="open_drawer_description">Open side menu</string>
+    <string name="close_drawer_description">Close side menu</string>
+    <string name="home">Home</string>
+    <string name="calendar">Calendar</string>
     <!-- Add expense fragment -->
     <string name="name">Name</string>
     <string name="amount">Amount</string>
@@ -17,7 +22,7 @@
     <!-- Categories -->
     <string name="category_food">Food</string>
     <string name="category_clothes">Clothes</string>
-    <string name="category_electronics">Electronics</string>
+    <string name="category_gadgets">Gadgets</string>
     <string name="category_car">Car</string>
     <string name="category_furniture">Furniture</string>
     <string name="category_medical">Medical</string>
