@@ -1,7 +1,18 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primary</item>
+    </style>
+
+    <style name="DrawerItem" parent="@style/Base.TextAppearance.AppCompat.Large">
+        <item name="android:paddingTop">@dimen/small_vertical_margin</item>
+        <item name="android:paddingBottom">@dimen/small_vertical_margin</item>
+        <item name="android:paddingLeft">@dimen/small_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/small_horizontal_margin</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:clickable">true</item>
+        <item name="android:drawablePadding">@dimen/small_item_spacing</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
     </style>
 </resources>

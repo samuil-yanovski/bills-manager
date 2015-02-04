@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,16 +22,17 @@ import yanovski.billsmanager.util.ViewUtils;
  */
 public class BaseActivity extends ActionBarActivity {
 
-    @InjectView(R.id.drawer)
-    protected ViewGroup drawer;
+    protected ViewGroup mDrawerContainer;
     @Optional
     @InjectView(R.id.home)
-    protected ViewGroup home;
+    protected View mHome;
     @Optional
     @InjectView(R.id.calendar)
-    protected ViewGroup calendar;
+    protected View mCalendar;
     @InjectView(R.id.drawer_layout)
-    protected DrawerLayout drawerLayout;
+    protected DrawerLayout mDrawerLayout;
+    @InjectView(R.id.main_toolbar)
+    protected Toolbar mToolbar;
 
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -42,20 +44,27 @@ public class BaseActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        mDrawerContainer = (ViewGroup) findViewById(R.id.drawer);
+        View.inflate(this, R.layout.drawer_generic, mDrawerContainer);
         ButterKnife.inject(this);
 
-        View.inflate(this, R.layout.drawer_generic, drawer);
+        ViewUtils.setFieldBackground(mHome);
+        ViewUtils.setFieldBackground(mCalendar);
 
-        ViewUtils.setFieldBackground(home);
-        ViewUtils.setFieldBackground(calendar);
-
-        mDrawerToggle =
-            new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer_description,
-                R.string.close_drawer_description);
+        setSupportActionBar(mToolbar);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,
+            R.string.open_drawer_description, R.string.close_drawer_description);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) { // <---- added
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -63,15 +72,7 @@ public class BaseActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) { // <---- added
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState(); // important statetment for drawer to
-        // identify
-        // its state
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) { // <---- added
+    public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }

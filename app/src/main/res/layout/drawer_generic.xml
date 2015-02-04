@@ -12,26 +12,16 @@
             android:id="@+id/home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Base.TextAppearance.AppCompat.Medium"
-            android:background="@drawable/field_background"
-            android:paddingLeft="@dimen/small_horizontal_margin"
-            android:paddingBottom="@dimen/minimal_vertical_margin"
-            android:paddingTop="@dimen/minimal_vertical_margin"
-            android:paddingRight="@dimen/small_horizontal_margin"
-            android:textColor="@android:color/primary_text_light"
+            style="@style/DrawerItem"
+            android:drawableLeft="@drawable/ic_drawer_home"
             android:text="@string/home"/>
 
         <TextView
             android:id="@+id/calendar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Base.TextAppearance.AppCompat.Medium"
-            android:background="@drawable/field_background"
-            android:paddingLeft="@dimen/small_horizontal_margin"
-            android:paddingBottom="@dimen/minimal_vertical_margin"
-            android:paddingTop="@dimen/minimal_vertical_margin"
-            android:paddingRight="@dimen/small_horizontal_margin"
-            android:textColor="@android:color/primary_text_light"
+            style="@style/DrawerItem"
+            android:drawableLeft="@drawable/ic_drawer_calendar"
             android:text="@string/calendar"/>
     </LinearLayout>
 </ScrollView>
