@@ -11,6 +11,14 @@ import yanovski.billsmanager.R;
  * Created by Samuil on 2/2/2015.
  */
 public class ColorUtils {
+    public static int adjustAlpha(int color, float factor) {
+        int alpha = Math.round(Color.alpha(color) * factor);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
+    }
+
     public static int getPrimaryColor() {
         Context context = BillsManagerApplication.context;
 
@@ -27,11 +35,9 @@ public class ColorUtils {
     /**
      * Lightens a color by a given factor.
      *
-     * @param color
-     *            The color to lighten
-     * @param factor
-     *            The factor to lighten the color. 0 will make the color unchanged. 1 will make the
-     *            color white.
+     * @param color  The color to lighten
+     * @param factor The factor to lighten the color. 0 will make the color unchanged. 1 will make the
+     *               color white.
      * @return lighter version of the specified color.
      */
     public static int lighter(int color, float factor) {

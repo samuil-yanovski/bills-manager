@@ -9,7 +9,7 @@ import java.util.List;
 import yanovski.billsmanager.BillsManagerApplication;
 import yanovski.billsmanager.R;
 import yanovski.billsmanager.adapter.vh.ExpenseViewHolder;
-import yanovski.billsmanager.daogen.CurrentCurrency;
+import yanovski.billsmanager.dao.DataManager;
 import yanovski.billsmanager.daogen.Expense;
 import yanovski.billsmanager.util.DateUtils;
 import yanovski.billsmanager.util.ViewUtils;
@@ -20,11 +20,8 @@ import yanovski.billsmanager.util.ViewUtils;
 public class ExpensesAdapter extends RecyclerView.Adapter<ExpenseViewHolder> {
 
     private List<Expense> expenses;
-    private CurrentCurrency currentCurrency;
 
     public ExpensesAdapter() {
-        currentCurrency = BillsManagerApplication.currentCurrencyDao.loadAll()
-            .get(0);
         setHasStableIds(true);
     }
 
@@ -50,9 +47,7 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpenseViewHolder> {
         holder.date.setText(DateUtils.format(expense.getDate()
             .getTime(), DateUtils.FORMAT_SHORT_DATE));
         holder.description.setText(expense.getDisplayName());
-        holder.amount.setText(String.format("%.2f%s", expense.getAmount(), null != currentCurrency ?
-            currentCurrency.getCurrency()
-                .getSymbol() : ""));
+        holder.amount.setText(DataManager.formatAmount(expense.getAmount()));
 
     }
 

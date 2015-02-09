@@ -1,6 +1,10 @@
 package yanovski.billsmanager.dao;
 
 import android.content.Context;
+import android.database.Cursor;
+
+import java.util.Date;
+import java.util.List;
 
 import yanovski.billsmanager.BillsManagerApplication;
 import yanovski.billsmanager.Constants;
@@ -9,11 +13,66 @@ import yanovski.billsmanager.daogen.Category;
 import yanovski.billsmanager.daogen.Currency;
 import yanovski.billsmanager.daogen.CurrentCurrency;
 import yanovski.billsmanager.daogen.Expense;
+import yanovski.billsmanager.daogen.ExpenseDao;
+import yanovski.billsmanager.util.CollectionsUtil;
 
 /**
  * Created by Samuil on 1/19/2015.
  */
 public class DataManager {
+
+    private static CurrentCurrency sCurrentCurrency;
+
+    public static CurrentCurrency getCurrentCurrency() {
+        return sCurrentCurrency;
+    }
+
+    public static double getDayAverage() {
+        Cursor cursor = BillsManagerApplication.db.rawQuery(
+            "SELECT SUM(amount) / COUNT(DISTINCT date) FROM expense ", null);
+
+        return cursor.getDouble(0);
+    }
+
+    public static String formatAmount(double amount) {
+        return String.format("%.2f%s", amount, null != sCurrentCurrency ?
+            sCurrentCurrency.getCurrency()
+                .getSymbol() : "");
+    }
+
+    public static String getFormattedTotalExpensesForDay(Date day) {
+        double total = 0;
+        List<Expense> expensesForDay = getExpensesForDay(day);
+        if (!CollectionsUtil.isEmpty(expensesForDay)) {
+            for (Expense expense : expensesForDay) {
+                total += expense.getAmount();
+            }
+        }
+
+        return 0 < total ? formatAmount(total) : "";
+    }
+
+    public static String getFormattedTotalExpensesForDay(double total) {
+        return 0 < total ? formatAmount(total) : "";
+    }
+
+    public static double getTotalExpensesForDay(Date day) {
+        double total = 0;
+        List<Expense> expensesForDay = getExpensesForDay(day);
+        if (!CollectionsUtil.isEmpty(expensesForDay)) {
+            for (Expense expense : expensesForDay) {
+                total += expense.getAmount();
+            }
+        }
+
+        return total;
+    }
+
+    public static List<Expense> getExpensesForDay(Date day) {
+        return BillsManagerApplication.expenseDao.queryBuilder()
+            .where(ExpenseDao.Properties.Date.eq(day))
+            .list();
+    }
 
     public static void init() {
         if (0 == BillsManagerApplication.currentCurrencyDao.count()) {
@@ -57,6 +116,9 @@ public class DataManager {
 
             insertCurrentCurrency(usd);
         }
+
+        sCurrentCurrency = BillsManagerApplication.currentCurrencyDao.loadAll()
+            .get(0);
     }
 
 
@@ -91,7 +153,7 @@ public class DataManager {
 
     public static Expense insertExpense(Expense expense) {
         Long id = expense.getId();
-        if (Constants.DEFAULT_ID == id) {
+        if (null == id || Constants.DEFAULT_ID == id) {
             expense.setId(null);
             BillsManagerApplication.expenseDao.insert(expense);
         } else {

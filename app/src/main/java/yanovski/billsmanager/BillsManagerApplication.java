@@ -4,9 +4,10 @@ import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
+
 import net.danlew.android.joda.JodaTimeAndroid;
 
+import io.fabric.sdk.android.Fabric;
 import yanovski.billsmanager.dao.DataManager;
 import yanovski.billsmanager.daogen.CategoryDao;
 import yanovski.billsmanager.daogen.CurrencyDao;
@@ -20,8 +21,8 @@ import yanovski.billsmanager.daogen.ExpenseDao;
  */
 public class BillsManagerApplication extends Application {
 
-    private static DaoMaster.DevOpenHelper helper;
-    private static SQLiteDatabase db;
+    public static DaoMaster.DevOpenHelper helper;
+    public static SQLiteDatabase db;
     public static DaoMaster daoMaster;
     public static DaoSession daoSession;
 
@@ -50,5 +51,6 @@ public class BillsManagerApplication extends Application {
 
         JodaTimeAndroid.init(this);
         DataManager.init();
+
     }
 }

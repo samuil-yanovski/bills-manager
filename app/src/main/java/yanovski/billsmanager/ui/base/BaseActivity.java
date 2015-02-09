@@ -1,5 +1,6 @@
 package yanovski.billsmanager.ui.base;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +16,8 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.Optional;
 import yanovski.billsmanager.R;
+import yanovski.billsmanager.ui.CalendarActivity;
+import yanovski.billsmanager.ui.ExpensesActivity;
 import yanovski.billsmanager.util.ViewUtils;
 
 /**
@@ -80,12 +83,14 @@ public class BaseActivity extends ActionBarActivity {
     @Optional
     @OnClick(R.id.home)
     protected void onHomePressed() {
-
+        Intent intent = new Intent(this, ExpensesActivity.class);
+        startActivity(intent);
     }
 
     @Optional
     @OnClick(R.id.calendar)
     protected void onCalendarPressed() {
-
+        Intent intent = new Intent(this, CalendarActivity.class);
+        startActivity(intent);
     }
 }

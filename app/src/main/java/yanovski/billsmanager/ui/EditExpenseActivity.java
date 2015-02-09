@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,17 +34,17 @@ import yanovski.billsmanager.dao.DataManager;
 import yanovski.billsmanager.daogen.Category;
 import yanovski.billsmanager.daogen.CategoryDao;
 import yanovski.billsmanager.daogen.Expense;
+import yanovski.billsmanager.ui.base.BaseActivity;
 import yanovski.billsmanager.util.DateUtils;
 import yanovski.billsmanager.util.ViewUtils;
 
-public class EditExpenseActivity extends ActionBarActivity {
+public class EditExpenseActivity extends BaseActivity {
 
     public static final String EXPENSE_ID_KEY = "expense_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_expense);
         if (savedInstanceState == null) {
             PlaceholderFragment placeholderFragment = new PlaceholderFragment();
             Intent intent = getIntent();
@@ -115,7 +114,7 @@ public class EditExpenseActivity extends ActionBarActivity {
         @InjectView(R.id.list)
         TwoWayView list;
 
-        private DateTime selectedDate = DateTime.now();
+        private DateTime selectedDate;
         private Expense expense;
         private int position = (int) Constants.DEFAULT_ID;
         private ItemSelectionSupport selectionSupport;
@@ -137,6 +136,9 @@ public class EditExpenseActivity extends ActionBarActivity {
         }
 
         public PlaceholderFragment() {
+            DateTime now = DateTime.now();
+            selectedDate =
+                new DateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(), 0, 0);
         }
 
         @Override
@@ -160,7 +162,9 @@ public class EditExpenseActivity extends ActionBarActivity {
         public void onSaveInstanceState(Bundle outState) {
             super.onSaveInstanceState(outState);
             outState.putLong(SELECTED_DATE_KEY, selectedDate.getMillis());
-            outState.putSerializable(EXPENSE_KEY, expense);
+            if (null != expense) {
+                outState.putSerializable(EXPENSE_KEY, expense);
+            }
             outState.putInt(Constants.POSITION_KEY, position);
         }
 
@@ -221,8 +225,6 @@ public class EditExpenseActivity extends ActionBarActivity {
                 name.setText(expenseName);
             } else {
                 delete.setVisibility(View.GONE);
-                expense = new Expense();
-                expense.setId(Constants.DEFAULT_ID);
             }
 
             showDate();
@@ -256,6 +258,11 @@ public class EditExpenseActivity extends ActionBarActivity {
             CategoriesAdapter adapter = (CategoriesAdapter) list.getAdapter();
             Category selectedCategory = adapter.getItem(checkedItemPosition);
 
+            if (null == expense) {
+                expense = new Expense();
+                expense.setId(Constants.DEFAULT_ID);
+            }
+
             expense.setDate(selectedDate.toDate());
             expense.setName(name.getText()
                 .toString());
@@ -266,8 +273,7 @@ public class EditExpenseActivity extends ActionBarActivity {
                 .toString();
 
             try {
-                expense.setAmount(Double.parseDouble(amount.getText()
-                    .toString()));
+                expense.setAmount(Double.parseDouble(amountText));
             } catch (NumberFormatException nfe) {
                 amount.setError(getString(R.string.amount_format_error));
                 return;
@@ -289,7 +295,11 @@ public class EditExpenseActivity extends ActionBarActivity {
             if (Constants.DEFAULT_ID != position) {
                 data.putExtra(Constants.POSITION_KEY, position);
             }
-            data.putExtra(EditExpenseActivity.EXPENSE_ID_KEY, expense.getId());
+            long expenseId = Constants.DEFAULT_ID;
+            if (null != expense) {
+                expenseId = expense.getId();
+            }
+            data.putExtra(EditExpenseActivity.EXPENSE_ID_KEY, expenseId);
             data.putExtra(Constants.DATE_KEY, selectedDate.toDate());
             data.putExtra(Constants.DELETED_KEY, deleted);
             activity.setResult(Activity.RESULT_OK, data);

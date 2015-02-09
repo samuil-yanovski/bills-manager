@@ -97,8 +97,8 @@
     <orderEntry type="library" exported="" name="core-1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="fabric-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="butterknife-6.0.0" level="project" />
+    <orderEntry type="library" exported="" name="times-square-library-unspecified" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-21.0.3" level="project" />
-    <orderEntry type="library" exported="" name="android-times-square-1.5.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="superrecyclerview-1.1.0" level="project" />
   </component>

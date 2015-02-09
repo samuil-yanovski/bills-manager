@@ -19,6 +19,7 @@ import org.lucasr.twowayview.widget.TwoWayView;
 
 import java.lang.ref.WeakReference;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -34,16 +35,27 @@ import yanovski.billsmanager.ui.base.BaseActivity;
 
 public class ExpensesActivity extends BaseActivity {
 
+    public static final String SELECTED_DATE_KEY = "selected_date";
+
     public static final int EDIT_EXPENSE_REQUEST_CODE = 101;
     public static final int ADD_EXPENSE_REQUEST_CODE = 102;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //        setContentView(R.layout.activity_expenses);
+
+        Intent intent = getIntent();
+        Date selectedDate = null;
+
+        if (intent.hasExtra(SELECTED_DATE_KEY)) {
+            selectedDate = (Date) intent.getSerializableExtra(SELECTED_DATE_KEY);
+        }
+
         if (savedInstanceState == null) {
+            PlaceholderFragment placeholderFragment = new PlaceholderFragment();
+            placeholderFragment.setSelectedDate(selectedDate);
             getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, new PlaceholderFragment())
+                .add(R.id.container, placeholderFragment)
                 .commit();
         }
     }
@@ -106,9 +118,45 @@ public class ExpensesActivity extends BaseActivity {
         TwoWayView expensesList;
         @InjectView(R.id.add)
         FloatingActionButton add;
+        private Date selectedDate;
 
         public PlaceholderFragment() {
 
+        }
+
+        public Date getSelectedDate() {
+            return selectedDate;
+        }
+
+        public void setSelectedDate(Date selectedDate) {
+            this.selectedDate = selectedDate;
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            if (null != savedInstanceState) {
+                if (savedInstanceState.containsKey(SELECTED_DATE_KEY)) {
+                    selectedDate = (Date) savedInstanceState.getSerializable(SELECTED_DATE_KEY);
+                }
+            }
+        }
+
+        @Override
+        public void onSaveInstanceState(Bundle outState) {
+            super.onSaveInstanceState(outState);
+            outState.putSerializable(SELECTED_DATE_KEY, selectedDate);
+        }
+
+        protected List<Expense> loadExpenses() {
+            if (null == selectedDate) {
+                return BillsManagerApplication.expenseDao.loadAll();
+            } else {
+                return BillsManagerApplication.expenseDao.queryBuilder()
+                    .where(ExpenseDao.Properties.Date.eq(selectedDate))
+                    .list();
+            }
         }
 
         @Override
@@ -118,7 +166,7 @@ public class ExpensesActivity extends BaseActivity {
             ButterKnife.inject(this, rootView);
 
             ExpensesAdapter adapter = new ExpensesAdapter();
-            adapter.setExpenses(BillsManagerApplication.expenseDao.loadAll());
+            adapter.setExpenses(loadExpenses());
             //            expensesList.setLayoutManager(new LinearLayoutManager(getActivity()));
             expensesList.setAdapter(adapter);
             ItemClickSupport itemClickSupport = ItemClickSupport.addTo(expensesList);

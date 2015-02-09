@@ -1,7 +1,10 @@
 package yanovski.billsmanager.util;
 
+import org.joda.time.DateTime;
 import org.joda.time.ReadableInstant;
 import org.joda.time.format.DateTimeFormat;
+
+import java.util.Date;
 
 import yanovski.billsmanager.BillsManagerApplication;
 
@@ -10,6 +13,11 @@ import yanovski.billsmanager.BillsManagerApplication;
  */
 public class DateUtils {
     public static String FORMAT_SHORT_DATE = "d/M";
+
+    public static Date toDayDate(DateTime dt) {
+        Date day = new Date(dt.getYear(), dt.getMonthOfYear() - 1, dt.getDayOfMonth() - 1);
+        return day;
+    }
 
     public static String formatShowDate(ReadableInstant instant) {
         return net.danlew.android.joda.DateUtils.formatDateTime(BillsManagerApplication.context,

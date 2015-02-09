@@ -2,4 +2,9 @@
 <resources>
     <color name="primary">#2151cc</color>
     <color name="border">#333333</color>
+    <color name="negative">#bb3133</color>
+    <color name="positive">#308b43</color>
+    <color name="day_pressed">#b333</color>
+    <color name="day_disabled">#2333</color>
+    <color name="day_default">#5333</color>
 </resources>

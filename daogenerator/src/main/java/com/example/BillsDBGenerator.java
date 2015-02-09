@@ -46,7 +46,7 @@ public class BillsDBGenerator {
         expense.addIdProperty();
         expense.addStringProperty("name");
         expense.addStringProperty("comment");
-        expense.addDateProperty("date");
+        expense.addDateProperty("date").index();
         expense.addDoubleProperty("amount");
         Property categoryId = expense.addLongProperty("categoryId")
             .getProperty();

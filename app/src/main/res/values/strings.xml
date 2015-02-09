@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Bills Manager</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -34,4 +35,6 @@
     <string name="title_activity_expenses">Expenses</string>
     <string name="title_activity_edit_expense">Expense details</string>
     <string name="title_activity_date">Select date</string>
+    <string name="title_activity_calendar">CalendarActivity</string>
+
 </resources>
