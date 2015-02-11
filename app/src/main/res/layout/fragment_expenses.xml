@@ -5,13 +5,24 @@
                 xmlns:fab="http://schemas.android.com/apk/res-auto"
                 tools:context="yanovski.billsmanager.ui.ExpensesActivity$PlaceholderFragment">
 
-    <org.lucasr.twowayview.widget.TwoWayView
-        android:id="@+id/expenses"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ExpensesActivity"
-        fab:twowayview_layoutManager="ListLayoutManager"
-        tools:listitem="@layout/expense_row"/>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="@string/no_expenses"/>
+
+        <org.lucasr.twowayview.widget.TwoWayView
+            android:id="@+id/expenses"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            fab:twowayview_layoutManager="ListLayoutManager"
+            tools:listitem="@layout/expense_row"/>
+    </FrameLayout>
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/add"

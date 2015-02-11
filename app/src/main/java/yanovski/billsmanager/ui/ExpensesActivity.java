@@ -31,6 +31,7 @@ import yanovski.billsmanager.adapter.ExpensesAdapter;
 import yanovski.billsmanager.daogen.Expense;
 import yanovski.billsmanager.daogen.ExpenseDao;
 import yanovski.billsmanager.ui.base.BaseActivity;
+import yanovski.billsmanager.util.AnimationsUtil;
 
 
 public class ExpensesActivity extends BaseActivity {
@@ -43,6 +44,7 @@ public class ExpensesActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.title_activity_expenses);
 
         Intent intent = getIntent();
         Date selectedDate = null;
@@ -118,6 +120,8 @@ public class ExpensesActivity extends BaseActivity {
         TwoWayView expensesList;
         @InjectView(R.id.add)
         FloatingActionButton add;
+        @InjectView(R.id.empty)
+        View empty;
         private Date selectedDate;
 
         public PlaceholderFragment() {
@@ -160,6 +164,12 @@ public class ExpensesActivity extends BaseActivity {
         }
 
         @Override
+        public void onResume() {
+            super.onResume();
+            showContent();
+        }
+
+        @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_expenses, container, false);
@@ -177,6 +187,7 @@ public class ExpensesActivity extends BaseActivity {
                     .getDrawable(R.drawable.divider)));
 
             add.attachToRecyclerView(expensesList);
+            showContent();
             return rootView;
         }
 
@@ -207,6 +218,20 @@ public class ExpensesActivity extends BaseActivity {
                             insertItem(position, expense);
                         }
                     }
+                }
+            }
+        }
+
+        protected void showContent() {
+            if (null != empty && null != expensesList) {
+                int itemCount = expensesList.getAdapter()
+                    .getItemCount();
+                if (0 == itemCount) {
+                    AnimationsUtil.fadeIn(empty);
+                    AnimationsUtil.fadeOut(expensesList);
+                } else {
+                    AnimationsUtil.fadeIn(expensesList);
+                    AnimationsUtil.fadeOut(empty);
                 }
             }
         }

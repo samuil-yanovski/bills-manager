@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Bills Manager</string>
+    <string name="app_name">Simple Wallet</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <!-- Expenses fragment -->
+    <string name="no_expenses">You have not entered any expenses yet.</string>
     <!-- Drawer -->
     <string name="open_drawer_description">Open side menu</string>
     <string name="close_drawer_description">Close side menu</string>
@@ -36,5 +37,4 @@
     <string name="title_activity_edit_expense">Expense details</string>
     <string name="title_activity_date">Select date</string>
     <string name="title_activity_calendar">CalendarActivity</string>
-
 </resources>
