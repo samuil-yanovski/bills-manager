@@ -1,5 +1,6 @@
 package yanovski.billsmanager.adapter;
 
+import android.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,9 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpenseViewHolder> {
     public ExpenseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rootView = View.inflate(BillsManagerApplication.context, R.layout.expense_row, null);
         ViewUtils.setSelectableBackground(rootView);
+        ViewGroup.LayoutParams params = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT);
+        rootView.setLayoutParams(params);
         return new ExpenseViewHolder(rootView);
     }
 

@@ -16,11 +16,10 @@
             android:layout_gravity="center_vertical|center_horizontal"
             android:text="@string/no_expenses"/>
 
-        <org.lucasr.twowayview.widget.TwoWayView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/expenses"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            fab:twowayview_layoutManager="ListLayoutManager"
             tools:listitem="@layout/expense_row"/>
     </FrameLayout>
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,8 +15,6 @@ import android.view.ViewGroup;
 import com.melnykov.fab.FloatingActionButton;
 
 import org.lucasr.twowayview.ItemClickSupport;
-import org.lucasr.twowayview.widget.DividerItemDecoration;
-import org.lucasr.twowayview.widget.TwoWayView;
 
 import java.lang.ref.WeakReference;
 import java.util.Date;
@@ -24,6 +23,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import de.greenrobot.dao.query.QueryBuilder;
 import yanovski.billsmanager.BillsManagerApplication;
 import yanovski.billsmanager.Constants;
 import yanovski.billsmanager.R;
@@ -31,6 +31,7 @@ import yanovski.billsmanager.adapter.ExpensesAdapter;
 import yanovski.billsmanager.daogen.Expense;
 import yanovski.billsmanager.daogen.ExpenseDao;
 import yanovski.billsmanager.ui.base.BaseActivity;
+import yanovski.billsmanager.ui.decorations.SimpleDividerItemDecoration;
 import yanovski.billsmanager.util.AnimationsUtil;
 
 
@@ -77,11 +78,6 @@ public class ExpensesActivity extends BaseActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -117,7 +113,8 @@ public class ExpensesActivity extends BaseActivity {
     public static class PlaceholderFragment extends Fragment {
 
         @InjectView(R.id.expenses)
-        TwoWayView expensesList;
+        //        TwoWayView expensesList;
+            RecyclerView expensesList;
         @InjectView(R.id.add)
         FloatingActionButton add;
         @InjectView(R.id.empty)
@@ -154,13 +151,14 @@ public class ExpensesActivity extends BaseActivity {
         }
 
         protected List<Expense> loadExpenses() {
-            if (null == selectedDate) {
-                return BillsManagerApplication.expenseDao.loadAll();
-            } else {
-                return BillsManagerApplication.expenseDao.queryBuilder()
-                    .where(ExpenseDao.Properties.Date.eq(selectedDate))
-                    .list();
+            QueryBuilder<Expense> expenseQueryBuilder =
+                BillsManagerApplication.expenseDao.queryBuilder()
+                    .orderDesc(ExpenseDao.Properties.Date);
+            if (null != selectedDate) {
+                expenseQueryBuilder.where(ExpenseDao.Properties.Date.eq(selectedDate));
             }
+
+            return expenseQueryBuilder.list();
         }
 
         @Override
@@ -177,12 +175,12 @@ public class ExpensesActivity extends BaseActivity {
 
             ExpensesAdapter adapter = new ExpensesAdapter();
             adapter.setExpenses(loadExpenses());
-            //            expensesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            expensesList.setLayoutManager(new LinearLayoutManager(getActivity()));
             expensesList.setAdapter(adapter);
             ItemClickSupport itemClickSupport = ItemClickSupport.addTo(expensesList);
             itemClickSupport.setOnItemClickListener(new OnExpenseClickListener(getActivity()));
 
-            expensesList.addItemDecoration(new DividerItemDecoration(
+            expensesList.addItemDecoration(new SimpleDividerItemDecoration(
                 BillsManagerApplication.context.getResources()
                     .getDrawable(R.drawable.divider)));
 

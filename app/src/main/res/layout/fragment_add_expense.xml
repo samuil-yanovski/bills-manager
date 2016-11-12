@@ -34,16 +34,16 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/name"
-            android:inputType="text"
-            android:id="@+id/name"/>
+            android:inputType="numberDecimal"
+            android:hint="@string/amount"
+            android:id="@+id/amount"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:hint="@string/amount"
-            android:id="@+id/amount"/>
+            android:hint="@string/name"
+            android:inputType="text"
+            android:id="@+id/name"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -52,26 +52,6 @@
             android:maxLines="20"
             android:hint="@string/comment"
             android:id="@+id/comment"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:divider="@drawable/transparent_divider"
-            android:showDividers="middle">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/submit"
-                android:text="@android:string/ok"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/delete"
-                android:text="@string/delete"/>
-        </LinearLayout>
     </LinearLayout>
 </ScrollView>
 

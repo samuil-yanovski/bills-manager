@@ -73,7 +73,12 @@ public class EditExpenseActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_expense, menu);
+        Intent intent = getIntent();
+        if (intent.hasExtra(EXPENSE_ID_KEY)) {
+            getMenuInflater().inflate(R.menu.menu_edit_expense, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_add_expense, menu);
+        }
         return true;
     }
 
@@ -83,9 +88,13 @@ public class EditExpenseActivity extends BaseActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        PlaceholderFragment placeholderFragment =
+            (PlaceholderFragment) getSupportFragmentManager().findFragmentById(R.id.container);
+        if (id == R.id.action_save) {
+            placeholderFragment.submit();
+            return true;
+        } else if (id == R.id.action_delete) {
+            placeholderFragment.delete();
             return true;
         }
 
@@ -109,8 +118,6 @@ public class EditExpenseActivity extends BaseActivity {
         EditText comment;
         @InjectView(R.id.date)
         TextView date;
-        @InjectView(R.id.delete)
-        TextView delete;
         @InjectView(R.id.list)
         TwoWayView list;
 
@@ -223,8 +230,6 @@ public class EditExpenseActivity extends BaseActivity {
 
                 String expenseName = expense.getName();
                 name.setText(expenseName);
-            } else {
-                delete.setVisibility(View.GONE);
             }
 
             showDate();
@@ -252,7 +257,6 @@ public class EditExpenseActivity extends BaseActivity {
             startActivityForResult(intent, DATE_REQUEST_CODE);
         }
 
-        @OnClick(R.id.submit)
         public void submit() {
             int checkedItemPosition = selectionSupport.getCheckedItemPosition();
             CategoriesAdapter adapter = (CategoriesAdapter) list.getAdapter();
@@ -283,7 +287,6 @@ public class EditExpenseActivity extends BaseActivity {
             close(false);
         }
 
-        @OnClick(R.id.delete)
         public void delete() {
             BillsManagerApplication.expenseDao.delete(expense);
             close(true);
